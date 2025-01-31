@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Change Detection</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="static\css\style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+  </head>
+  <body>
+    <div>
+      <h2 style="text-align: center; font-size: 99px; color: #C2B97F;background-color: rgba(119, 136, 153, 0.5);font-family:'Courier New', Courier, monospace; z-index: 1;">
+        Satellite Image Change Detector
+      </h2>
+    </div>
+
+    <!-- <img src="static\assets\bg.jpg" alt="bg" srcset=""> -->
+    <!-- <video src="mobile-bg.mp4" class="mobile-bg" id="bg" autoplay muted loop>Background Video not supported in Mobile view</video> -->
+    <video src="static\assets\planet-bg.mp4" class="bgvideo" id="bg" autoplay muted loop>Video not Supported</video>
+
+    <div class="container">
+      <form action="{{url_for('predict')}}" method="post" class="frm" enctype="multipart/form-data">
+        <h3 class="head">Upload Images for Detection</h3>
+        <div class="form-group mb-4">
+          <label for="image1">Image 1</label>
+          <input type="file" required class="form-control" name="image1" id="image1">
+        </div>
+        <div class="form-group mb-4">
+          <label for="image2">Image 2</label>
+          <input type="file" required class="form-control" name="image2" id="image2">
+        </div>
+        <input type="submit" class="anc" value="Detect">
+      </form>
+
+      {% if image1 %}
+        <!-- Modal to display the uploaded image -->
+        <div class="modal" tabindex="-1" role="dialog" id="imageModal" style="display:block; background-color: rgba(0, 0, 0, 0.5)">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Uploaded Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Display the image inside the modal -->
+                <img src="{{ url_for('uploaded_file', filename=image1) }}" alt="Uploaded Image 1" width="100%">
+              </div>
+              <div class="modal-footer">
+                <a href="{{ url_for('home') }}" class="btn btn-secondary">Back</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if predict_text %}
+        <h3>{{ predict_text }}</h3>
+      {% endif %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="static\js\vanilla-tilt.babel.min.js"></script>
+
+    <script>
+      VanillaTilt.init(document.querySelectorAll(".frm"), {
+        max: 15,
+        speed: 400
+      });
+    </script>
+  </body>
+</html>
